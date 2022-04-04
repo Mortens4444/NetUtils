@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "PortScan": {
+      "commandName": "Project",
+      "commandLineArgs": "-portscan 127.0.0.1"
+    },
+    "PortSearch": {
+      "commandName": "Project",
+      "commandLineArgs": "-port ftp"
+    },
+    "PortInfo": {
+      "commandName": "Project",
+      "commandLineArgs": "-portInfo 80"
+    }
+  }
+}
