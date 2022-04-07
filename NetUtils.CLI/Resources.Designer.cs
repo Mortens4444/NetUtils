@@ -61,6 +61,15 @@ namespace NetUtils.CLI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NetUtils.CLI -discoverhosts.
+        /// </summary>
+        internal static string DiscoverHostsHelp {
+            get {
+                return ResourceManager.GetString("DiscoverHostsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NetUtils.CLI -portinfo portNumber.
         /// </summary>
         internal static string PortInfoHelp {

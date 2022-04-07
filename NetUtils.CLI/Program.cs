@@ -1,4 +1,5 @@
-﻿using NetUtils.Ports;
+﻿using NetUtils.Hosts;
+using NetUtils.Ports;
 using System.Globalization;
 using System.Net.Sockets;
 
@@ -14,6 +15,12 @@ namespace NetUtils.CLI
                 Console.WriteLine(Resources.PortScanHelp);
                 Console.WriteLine(Resources.PortSearchHelp);
                 Console.WriteLine(Resources.PortInfoHelp);
+                Console.WriteLine(Resources.DiscoverHostsHelp);
+            }
+            
+            if (ArgUtils.IsParamUsed(args, "discoverhosts"))
+            {
+                HostDiscoveryService.Discovery();
             }
 
             if (ArgUtils.IsParamUsed(args, "portscan"))
