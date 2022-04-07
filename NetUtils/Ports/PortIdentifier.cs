@@ -1,8 +1,8 @@
 ﻿namespace NetUtils.Ports
 {
-    public class PortIdentifier
+    public static class PortIdentifier
     {
-        private readonly List<Port> portDefinitions = new()
+        private static readonly List<Port> PortDefinitions = new()
         {
             new Port(1, new List<Service> { new Service("tcpmux", "Protocols.TCP Port Service Multiplexer") }),
             new Port(2, new List<Service> { new Service("compressnet", "Management Utility") }),
@@ -794,14 +794,14 @@
             
         };
 
-        public Port? Get(ushort portNumber)
+        public static Port? Get(ushort portNumber)
         {
-            return portDefinitions.SingleOrDefault(port => port.Number == portNumber);
+            return PortDefinitions.SingleOrDefault(port => port.Number == portNumber);
         }
 
-        public IEnumerable<Port> Search(string searchCriteria, StringComparison stringComparison)
+        public static IEnumerable<Port> Search(string searchCriteria, StringComparison stringComparison)
         {
-            return portDefinitions.Where(port => port.IsMatch(searchCriteria, stringComparison));
+            return PortDefinitions.Where(port => port.IsMatch(searchCriteria, stringComparison));
         }
     }
 }

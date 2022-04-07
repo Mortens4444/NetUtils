@@ -15,7 +15,6 @@ namespace NetUtils.Ports
 		private const int WSAEPROTONOSUPPORT = 10043;
 
 		private readonly IPAddress targetIp;
-		private readonly PortIdentifier portIdentifier = new();
 
 		public PortScanner(string targetIp)
         {
@@ -75,7 +74,7 @@ namespace NetUtils.Ports
             if (socket != null && socket.Connected && socket.RemoteEndPoint != null)
             {
                 var endPointPort = (ushort)((IPEndPoint)socket.RemoteEndPoint).Port;
-				var port = portIdentifier.Get(endPointPort);
+				var port = PortIdentifier.Get(endPointPort);
 				lock (this)
 				{
 					Console.Write(socket.ProtocolType);

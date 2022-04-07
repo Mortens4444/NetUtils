@@ -2,7 +2,7 @@
 
 namespace NetUtils.Hosts
 {
-    public class LocalIpAddressChecker
+    public static class LocalIpAddressChecker
     {
 		public static bool IsLocal(string host)
 		{

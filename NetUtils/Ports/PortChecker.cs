@@ -2,7 +2,7 @@
 
 namespace NetUtils.Ports
 {
-    public class PortChecker
+    public static class PortChecker
     {
 		/// <summary>
 		/// Checks if a port is available.

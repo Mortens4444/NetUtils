@@ -16,6 +16,7 @@ namespace NetUtils.CLI
                 Console.WriteLine(Resources.PortSearchHelp);
                 Console.WriteLine(Resources.PortInfoHelp);
                 Console.WriteLine(Resources.DiscoverHostsHelp);
+                Console.WriteLine(Resources.PingHelp);
             }
             
             if (ArgUtils.IsParamUsed(args, "discoverhosts"))
@@ -46,8 +47,7 @@ namespace NetUtils.CLI
             if (ArgUtils.IsParamUsed(args, "port"))
             {
                 var searchCriteria = ArgUtils.GetNextArg(args, "port");
-                var portIdentifier = new PortIdentifier();
-                var ports = portIdentifier.Search(searchCriteria, StringComparison.OrdinalIgnoreCase);
+                var ports = PortIdentifier.Search(searchCriteria, StringComparison.OrdinalIgnoreCase);
                 var result = string.Join(Environment.NewLine, ports.Select(port => port.ToString()));
                 Console.WriteLine(result);
             }
@@ -55,9 +55,20 @@ namespace NetUtils.CLI
             if (ArgUtils.IsParamUsed(args, "portinfo"))
             {
                 var port = UInt16.Parse(ArgUtils.GetNextArg(args, "portinfo"), CultureInfo.InvariantCulture);
-                var portIdentifier = new PortIdentifier();
-                var portInfo = portIdentifier.Get(port);
+                var portInfo = PortIdentifier.Get(port);
                 Console.WriteLine(portInfo != null ? portInfo : "Port not found in the database");
+            }
+
+            if (ArgUtils.IsParamUsed(args, "ping"))
+            {
+                var ipAddress = ArgUtils.GetNextArg(args, "ping");
+                using var pingSender = new PingSender();
+                pingSender.PingReplyArrived += (object sender, PingReplyArrivedEventArgs e) =>
+                    {
+                        Console.WriteLine($"Success: {e.Success} - {e.StatusMessage}");
+                        Environment.Exit(0);
+                    };
+                pingSender.SendAsync(ipAddress);
             }
         }
     }

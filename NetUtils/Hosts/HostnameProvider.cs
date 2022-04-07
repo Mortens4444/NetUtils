@@ -2,7 +2,7 @@
 
 namespace NetUtils.Hosts
 {
-    public class HostnameProvider
+    public static class HostnameProvider
 	{
 		public static string Get(string ip)
 		{

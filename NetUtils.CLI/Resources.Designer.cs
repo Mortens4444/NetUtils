@@ -70,6 +70,15 @@ namespace NetUtils.CLI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NetUtils.CLI -ping ipAddress.
+        /// </summary>
+        internal static string PingHelp {
+            get {
+                return ResourceManager.GetString("PingHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NetUtils.CLI -portinfo portNumber.
         /// </summary>
         internal static string PortInfoHelp {

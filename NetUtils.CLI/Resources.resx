@@ -120,6 +120,9 @@
   <data name="DiscoverHostsHelp" xml:space="preserve">
     <value>NetUtils.CLI -discoverhosts</value>
   </data>
+  <data name="PingHelp" xml:space="preserve">
+    <value>NetUtils.CLI -ping ipAddress</value>
+  </data>
   <data name="PortInfoHelp" xml:space="preserve">
     <value>NetUtils.CLI -portinfo portNumber</value>
   </data>

@@ -8,13 +8,15 @@ using System.Text.RegularExpressions;
 
 namespace NetUtils.Hosts
 {
-    public class PhysicalAddressProvider
+    public static class PhysicalAddressProvider
 	{
 		private const int NO_ERROR = 0;
 		private const int ERROR_BAD_NET_NAME = 67;
 		private const int ERROR_BUFFER_OVERFLOW = 111;
 		private const int ERROR_GEN_FAILURE = 31;
 		private const int ERROR_INVALID_PARAMETER = 87;
+		private const int ERROR_INVALID_USER_BUFFER = 1784;
+		private const int ERROR_NOT_FOUND = 1168;
 
 		[DllImport("iphlpapi.dll", ExactSpelling = true)]
         private static extern int SendARP(uint DestIP, uint SrcIP, byte[] pMacAddr, ref int PhyAddrLen);
@@ -76,6 +78,8 @@ namespace NetUtils.Hosts
 					ERROR_INVALID_PARAMETER => new Exception("One of the parameters is invalid. This error is returned on Windows Server 2003 and earlier if either the pMacAddr or PhyAddrLen parameter is a NULL pointer."),
 					ERROR_BAD_NET_NAME => new Exception("The network name cannot be found. This error is returned on Windows Vista and later when an ARP reply to the SendARP request was not received. This error occurs if the destination IPv4 address could not be reached."),
 					ERROR_BUFFER_OVERFLOW => new Exception("The file name is too long. This error is returned on Windows Vista if the ULONG value pointed to by the PhyAddrLen parameter is less than 6, the size required to store a complete physical address."),
+					ERROR_INVALID_USER_BUFFER => throw new Exception("The supplied user buffer is not valid for the requested operation. This error is returned on Windows Server 2003 and earlier if the ULONG value pointed to by the PhyAddrLen parameter is zero."),
+					ERROR_NOT_FOUND => throw new Exception("Element not found. This error is returned on Windows Vista if the the SrcIp parameter does not specify a source IPv4 address on an interface on the local computer or the INADDR_ANY IP address (an IPv4 address of 0.0.0.0)."),
 					_ => new Win32Exception(arpReply),
 				};
 			}

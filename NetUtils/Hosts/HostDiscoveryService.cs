@@ -6,11 +6,11 @@ using System.Text;
 
 namespace NetUtils.Hosts
 {
-    public class HostDiscoveryService
+    public static class HostDiscoveryService
 	{
 		private const int IpAddressLength = 30;
 		private const int HostnameLength = 50;
-		private const int MacAddressLength = 25;
+		private const int MacAddressLength = 20;
 		private const int NicLength = 20;
 		private const int NicTypeLength = 20;
 		private const int NicDescLength = 50;
@@ -56,32 +56,32 @@ namespace NetUtils.Hosts
 				var stringBuilder = new StringBuilder();
 				stringBuilder.Append(ipAddressStr.PadRight(IpAddressLength));
 				var hostname = HostnameProvider.Get(ipAddressStr);
-				stringBuilder.Append(hostname.PadRight(HostnameLength));
-
-				var phyhicalAddress = PhysicalAddressProvider.Get(ipAddress);
-				stringBuilder.Append(PhysicalAddressToStringConverter.ToString(phyhicalAddress).PadRight(MacAddressLength));
-				
-				if (LocalIpAddressChecker.IsLocal(ipAddressStr))
-				{
-					var networkInterface = NetworkInterface.GetAllNetworkInterfaces()
-						.FirstOrDefault(nic => nic.GetIPProperties().UnicastAddresses
-							.FirstOrDefault(ipInfo => ipInfo.Address.ToString() == ipAddressStr) != null);
-
-					if (networkInterface != null)
-					{
-						stringBuilder.Append(networkInterface.Name.PadRight(NicLength));
-						stringBuilder.Append(networkInterface.NetworkInterfaceType.ToString().PadRight(NicTypeLength));
-						stringBuilder.Append(networkInterface.Description.PadRight(NicDescLength));
-						stringBuilder.Append(HumanReadableValueFormatter.FormatValue(networkInterface.Speed, true).PadRight(SpeedLength));
-
-						var stats = networkInterface.GetIPv4Statistics();
-						var previousSentBytes = stats.BytesSent;
-						var previousReceivedBytes = stats.BytesReceived;
-					}
-				}
-
 				if (!String.IsNullOrEmpty(hostname))
                 {
+					stringBuilder.Append(hostname.PadRight(HostnameLength));
+
+					var phyhicalAddress = PhysicalAddressProvider.Get(ipAddress);
+					stringBuilder.Append(PhysicalAddressToStringConverter.ToString(phyhicalAddress).PadRight(MacAddressLength));
+				
+					if (LocalIpAddressChecker.IsLocal(ipAddressStr))
+					{
+						var networkInterface = NetworkInterface.GetAllNetworkInterfaces()
+							.FirstOrDefault(nic => nic.GetIPProperties().UnicastAddresses
+								.FirstOrDefault(ipInfo => ipInfo.Address.ToString() == ipAddressStr) != null);
+
+						if (networkInterface != null)
+						{
+							stringBuilder.Append(networkInterface.Name.PadRight(NicLength));
+							stringBuilder.Append(networkInterface.NetworkInterfaceType.ToString().PadRight(NicTypeLength));
+							stringBuilder.Append(networkInterface.Description.PadRight(NicDescLength));
+							stringBuilder.Append(HumanReadableValueFormatter.FormatValue(networkInterface.Speed, true).PadRight(SpeedLength));
+
+							var stats = networkInterface.GetIPv4Statistics();
+							var previousSentBytes = stats.BytesSent;
+							var previousReceivedBytes = stats.BytesReceived;
+						}
+					}
+
 					Console.WriteLine(stringBuilder.ToString());
                 }
 			}
