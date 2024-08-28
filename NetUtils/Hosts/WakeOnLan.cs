@@ -13,7 +13,7 @@ namespace NetUtils.Hosts
 				throw new ArgumentNullException(nameof(macAddress));
 			}
 
-			var macByteArray = MacAddresToByteArray.ToByteArray(macAddress);
+			var macByteArray = MacAddressToByteArray.ToByteArray(macAddress);
 			var magicPacket = MagicPacketBuilder.Build(macByteArray);
 			var endPoint = new IPEndPoint(IPAddress.Broadcast, port);
 

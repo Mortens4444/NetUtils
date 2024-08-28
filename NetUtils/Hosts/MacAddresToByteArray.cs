@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace NetUtils.Hosts
 {
-    public static class MacAddresToByteArray
+    public static class MacAddressToByteArray
     {
 		public static byte[] ToByteArray(string macString)
 		{
