@@ -23,10 +23,10 @@ namespace NetUtils.Ports
         public override string ToString()
         {
             var result = new StringBuilder(Number.ToString());
-            if (Services != null && Services.Any())
+            if (Services != null && Services.Count != 0)
             {
                 var services = String.Join(", ", Services.Select(service => service.ToString()));
-                result.Append($": {services}");
+                _ = result.Append($": {services}");
             }
             return result.ToString();
         }

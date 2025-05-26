@@ -7,11 +7,8 @@ namespace NetUtils.Hosts
     {
 		public static byte[] ToByteArray(string macString)
 		{
-			if (macString == null)
-			{
-				throw new ArgumentNullException(nameof(macString));
-			}
-			var mac = Regex.Replace(macString, "[^0-9A-Fa-f]", String.Empty);
+            ArgumentNullException.ThrowIfNull(macString);
+            var mac = Regex.Replace(macString, "[^0-9A-Fa-f]", String.Empty);
 			if (mac.Length != Constants.MacAddressLengthInBytes * 2)
             {
 				throw new ArgumentException("Incorrect MAC address", nameof(macString));

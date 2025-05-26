@@ -27,13 +27,13 @@ namespace NetUtils.Ports
         public override string ToString()
         {
             var result = new StringBuilder(Name);
-            if (Description != String.Empty)
+            if (!String.IsNullOrEmpty(Description))
             {
-                result.Append($" Description: {Description}");
+                _ = result.Append($" Description: {Description}");
             }
-            if (Alias != String.Empty)
+            if (!String.IsNullOrEmpty(Alias))
             {
-                result.Append($" Alias: {Alias}");
+                _ = result.Append($" Alias: {Alias}");
             }
             return result.ToString().TrimStart(' ');
         }

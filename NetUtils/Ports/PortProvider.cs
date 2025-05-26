@@ -2,6 +2,8 @@
 {
 	public static class PortProvider
 	{
+        private static Random rnd = new Random(Environment.TickCount);
+
 		/// <summary>
 		/// Gets a free port.
 		/// </summary>
@@ -10,7 +12,6 @@
 		/// <returns>Number of the port.</returns>
 		public static int GetFreePort(int fromPort = 1024, int toPort = UInt16.MaxValue)
 		{
-			var rnd = new Random(Environment.TickCount);
 			int port;
 
 			do

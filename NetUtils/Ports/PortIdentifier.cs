@@ -790,8 +790,7 @@
             new Port(7200, new List<Service> { new Service("fodms", "FODMS FLIP") }),
             new Port(9535, new List<Service> { new Service("man") }),
             new Port(17007, new List<Service> { new Service("isode-dua") }),
-            new Port(27036, new List<Service> { new Service("steam", "Steam Client Application") }),
-            
+            new Port(27036, new List<Service> { new Service("steam", "Steam Client Application") })
         };
 
         public static Port? Get(ushort portNumber)

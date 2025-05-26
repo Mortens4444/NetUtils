@@ -74,7 +74,7 @@ namespace NetUtils.Hosts
 							stringBuilder.Append(networkInterface.Name.PadRight(NicLength));
 							stringBuilder.Append(networkInterface.NetworkInterfaceType.ToString().PadRight(NicTypeLength));
 							stringBuilder.Append(networkInterface.Description.PadRight(NicDescLength));
-							stringBuilder.Append(HumanReadableValueFormatter.FormatValue(networkInterface.Speed, true).PadRight(SpeedLength));
+							stringBuilder.Append(ValueFormatter.ToHumanReadable(networkInterface.Speed, true).PadRight(SpeedLength));
 
 							var stats = networkInterface.GetIPv4Statistics();
 							var previousSentBytes = stats.BytesSent;

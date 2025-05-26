@@ -6,9 +6,9 @@ namespace NetUtils.Hosts
     public class PingSender : IDisposable
     {
         private readonly Ping ping = new();
-        private int disposed = 0;
-        
-        public event PingReplyArrivedEventHandler? PingReplyArrived;        
+        private int disposed;
+
+        public event PingReplyArrivedEventHandler? PingReplyArrived;
         public delegate void PingReplyArrivedEventHandler(object sender, PingReplyArrivedEventArgs e);
 
         public PingSender()
@@ -22,23 +22,26 @@ namespace NetUtils.Hosts
 
         ~PingSender()
         {
-            DisposeObject();
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            DisposeObject();
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public void DisposeObject()
+        private void Dispose(bool disposing)
         {
             if (Interlocked.Exchange(ref disposed, 1) != 0)
             {
                 return;
             }
 
-            DisposePing();
+            if (disposing)
+            {
+                DisposePing();
+            }
         }
 
         public void SendAsync(string ipAddress, string data = "ping")

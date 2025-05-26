@@ -23,10 +23,12 @@ namespace NetUtils.Hosts
 		
 		public static PhysicalAddress? Get(IPAddress ipAddress)
 		{
+			ArgumentNullException.ThrowIfNull(ipAddress);
+
 			if (ipAddress.AddressFamily == AddressFamily.InterNetworkV6)
 			{
 				var ipv6Address = ipAddress.ToString();
-				var percentIndex = ipv6Address.LastIndexOf("%");
+				var percentIndex = ipv6Address.LastIndexOf('%');
 				if (percentIndex != -1)
 				{
 					ipv6Address = ipv6Address[..percentIndex];
@@ -46,7 +48,7 @@ namespace NetUtils.Hosts
 					var error = process.StandardError.ReadToEnd();
 					if (!String.IsNullOrEmpty(error))
 					{
-						throw new Exception(error);
+						throw new InvalidOperationException(error);
 					}
 					var matches = Regex.Match(output, @"^[a-z0-9:]*\s*(([0-9-]{2}-){5}[0-9-]{2})", RegexOptions.Multiline);
 					if (matches.Success && matches.Groups.Count > 1)
@@ -74,12 +76,12 @@ namespace NetUtils.Hosts
 			{
 				throw arpReply switch
 				{
-					ERROR_GEN_FAILURE => new Exception("A device attached to the system is not functioning. This error is returned on Windows Server 2003 and earlier when an ARP reply to the SendARP request was not received. This error can occur if destination IPv4 address could not be reached because it is not on the same subnet or the destination computer is not operating."),
-					ERROR_INVALID_PARAMETER => new Exception("One of the parameters is invalid. This error is returned on Windows Server 2003 and earlier if either the pMacAddr or PhyAddrLen parameter is a NULL pointer."),
-					ERROR_BAD_NET_NAME => new Exception("The network name cannot be found. This error is returned on Windows Vista and later when an ARP reply to the SendARP request was not received. This error occurs if the destination IPv4 address could not be reached."),
-					ERROR_BUFFER_OVERFLOW => new Exception("The file name is too long. This error is returned on Windows Vista if the ULONG value pointed to by the PhyAddrLen parameter is less than 6, the size required to store a complete physical address."),
-					ERROR_INVALID_USER_BUFFER => throw new Exception("The supplied user buffer is not valid for the requested operation. This error is returned on Windows Server 2003 and earlier if the ULONG value pointed to by the PhyAddrLen parameter is zero."),
-					ERROR_NOT_FOUND => throw new Exception("Element not found. This error is returned on Windows Vista if the the SrcIp parameter does not specify a source IPv4 address on an interface on the local computer or the INADDR_ANY IP address (an IPv4 address of 0.0.0.0)."),
+					ERROR_GEN_FAILURE => new InvalidOperationException("A device attached to the system is not functioning. This error is returned on Windows Server 2003 and earlier when an ARP reply to the SendARP request was not received. This error can occur if destination IPv4 address could not be reached because it is not on the same subnet or the destination computer is not operating."),
+					ERROR_INVALID_PARAMETER => new ArgumentException("One of the parameters is invalid. This error is returned on Windows Server 2003 and earlier if either the pMacAddr or PhyAddrLen parameter is a NULL pointer."),
+					ERROR_BAD_NET_NAME => new InvalidOperationException("The network name cannot be found. This error is returned on Windows Vista and later when an ARP reply to the SendARP request was not received. This error occurs if the destination IPv4 address could not be reached."),
+					ERROR_BUFFER_OVERFLOW => new InternalBufferOverflowException("The file name is too long. This error is returned on Windows Vista if the ULONG value pointed to by the PhyAddrLen parameter is less than 6, the size required to store a complete physical address."),
+					ERROR_INVALID_USER_BUFFER => throw new InvalidOperationException("The supplied user buffer is not valid for the requested operation. This error is returned on Windows Server 2003 and earlier if the ULONG value pointed to by the PhyAddrLen parameter is zero."),
+					ERROR_NOT_FOUND => throw new InvalidOperationException("Element not found. This error is returned on Windows Vista if the the SrcIp parameter does not specify a source IPv4 address on an interface on the local computer or the INADDR_ANY IP address (an IPv4 address of 0.0.0.0)."),
 					_ => new Win32Exception(arpReply),
 				};
 			}
